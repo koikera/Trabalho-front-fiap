@@ -9,12 +9,12 @@ import { useRouter } from 'vue-router';
         <div class="d-flex">
             <div class="d-flex align-items-center">
                 <p class="w-100 m-0">Data prevista de conclusão:</p>
-                <input type="date" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="date" class="form-control bg-transparent" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                 <p class="w-50 m-0">Até</p>
-                <input type="date" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="date" class="form-control bg-transparent" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
                 <p class="w-25 m-0">|</p>
                 <p class="w-50 m-0">Status:</p>
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select bg-transparent" aria-label="Default select example">
                     <option selected>Selecionar</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
