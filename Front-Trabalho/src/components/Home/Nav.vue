@@ -12,6 +12,7 @@ import { useRouter } from 'vue-router';
             <img class="w-25" src="../../assets/door.svg" alt="">
         </div>
     </div>
+    <hr>
 </template>
 
 <style scoped>
