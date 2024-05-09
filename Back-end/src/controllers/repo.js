@@ -1,88 +1,94 @@
-const usuarios = require('../models/usuarios');
-const requisicao = require('./requisicao');
-const repositories = require('../models/repositories');
+const usuarios = require('../models/connection');
 
-const post =async (req,res)=>{
+const login = async (req,res)=>{
 
     const body = req.body;
-    const username = body.username;
-    const repositoriouser =await requisicao.repositoriesbyuser(username);
-    if(repositoriouser.message == 'Request failed with status code 404'){
-        return res.status(422).json ({"payload":{ "github_username":username },"message": "Usuário não encontrado no github"}); 
+    const email = body.email;
+    const senha = body.senha;
+
+    let usuario = await usuarios.pegarUsuario(email, senha);
+    if(usuario != null){
+        console.log(usuario)
+        return res.status(200).json({id: usuario.id, email: usuario.email});
     }
-    usuarios.getUserID(username).then(
-        ID => {
-            if(ID != undefined){
-                repositoriouser.forEach(repo => {
-                    if(ID != undefined){
-                        repositories.getReposById_Name(repo.name, ID).then(repositoriesbyuserDB => {
-                            if(repositoriesbyuserDB[0] == undefined){
-                                repositories.createRepo(repo.name, ID);
-                            }
-                        }).catch(error => {
-                            return res.status(500).json(
-                                {"payload":{ "github_username": req.body.username },"message": error}
-                            )
-                        });
-                    } else {
-                        return res.status(422).json ({"payload":{ "github_username":username },"message": "Usuario nao encontrado no banco de dados!"});   
-                    }
-                });
-            }
 
-            return res.status(422).json({"payload":{ "github_username": "" },"message": "Usuario nao encontrado no banco de dados!"});   
-
-        }
-    ).catch(error => {
-        return res.status(500).json(
-            {"payload":{ "github_username": req.body.username },"message": error}
-        )
-    });
-    
-
-    return res.status(201).json ({"payload":{ "github_username":username},"message": "request created"});   
+    return res.status(422).json({"message": "Usuario nao encontrado no banco de dados!"});   
 };
 
-const get =async (req,res)=>{
-    const username = req.params['username'];
-    const repositoriouser =await requisicao.repositoriesbyuser(username);
-    if(repositoriouser.message == 'Request failed with status code 404'){
-        return res.status(422).json ({"payload":{ "github_username":username },"message": "Usuário não encontrado no github"}); 
+const pegarTarefas =async (req,res)=>{
+    try {
+        const id = req.params["id"];
+        let tarefas = await usuarios.pegarTarefas(id);
+        return res.status(200).send(tarefas);
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
     }
-    usuarios.getUserID(username).then(
-        ID => {
-            if(ID != undefined){
-                repositories.getReposByID(ID).then(
-                    reposByUserId => {
-                        let resultado = [];
 
-                        reposByUserId.forEach(repo => {
-                            const repoGit = repositoriouser.find(i => i.name == repo.repository_name)
-                            if(repoGit != undefined){
-                                resultado.push(repoGit);
-                            }
-                        })
+}
 
-                        return res.status(200).json({repos: resultado});
+const criarTarefa = (req,res) =>{
+    try {
+        const body = req.body;
+        const id = req.params["id"];
+        const nome = body.nome;
+        const dataConclusao = body.dataConclusao;
+        usuarios.criarTarefa(id, nome, dataConclusao);
 
-                    }
-                ).catch(error => {
-                    return res.status(500).json(
-                        {"payload":{ "github_username": req.body.username },"message": error}
-                    )
-                })
-            } else {
-                return res.status(422).json ({"payload":{ "github_username":username },"message": "Usuario nao encontrado no banco de dados!"});   
-            }
-        }
-    ).catch(error => {
-        return res.status(500).json(
-            {"payload":{ "github_username": req.body.username },"message": error}
-        )
-    });
+        return res.status(200).send("Tarefa criada com sucesso!");
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
+    }
+}
+
+const createTable =async (req,res)=>{
+    try {
+        usuarios.createTables();
+
+        return res.status(200).send("Tabelas criadas com sucesso!");
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
+    }
+
+}
+
+const criarUsuario = (req,res) =>{
+    try {
+        const body = req.body;
+        const email = body.email;
+        const senha = body.senha;
+        usuarios.criarUsuario(email, senha);
+
+        return res.status(200).send("Usuario criado com sucesso!");
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
+    }
+}
+
+const alterarStatusTarefa = async (req,res) => {
+    try {
+        const body = req.body;
+        const isChecked = body.isChecked;
+        const id = body.id;
+
+        console.log(id, isChecked)
+        await usuarios.marcarConcluido(isChecked, id);
+
+        return res.status(200).send("Tarefa alterada com sucesso!");
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
+    }
 }
 
 module.exports = {
-    post,
-    get
+    login,
+    createTable,
+    criarUsuario,
+    pegarTarefas,
+    criarTarefa,
+    alterarStatusTarefa
 }

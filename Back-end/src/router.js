@@ -3,8 +3,15 @@ const express = require('express');
 const router = express.Router();
 
 
-router.post('/gh_user_repos', repo.post)
+router.post('/login', repo.login)
 
-router.get('/gh_user_repos/:username', repo.get)
+router.get('/tarefas/:id', repo.pegarTarefas)
+
+router.post('/createTable/', repo.createTable)
+router.post('/criarUsuario/', repo.criarUsuario)
+router.post('/criarTarefa/:id', repo.criarTarefa)
+
+router.put('/alterarStatusTarefa', repo.alterarStatusTarefa)
+
 
 module.exports = router
