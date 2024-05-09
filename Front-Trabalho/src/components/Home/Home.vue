@@ -1,5 +1,4 @@
 <script setup>
-    import { useRouter } from 'vue-router';
     import Nav from './Nav.vue';
     import Lista from './Lista.vue';
 </script>
