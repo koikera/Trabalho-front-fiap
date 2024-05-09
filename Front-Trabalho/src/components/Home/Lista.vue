@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-
+    
     <img class="w-25" style="height: 100vh;" src="../../assets/notFound.svg" alt="">
 </template>
 
