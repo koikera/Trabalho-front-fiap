@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Abra o banco de dados (ele será criado se não existir)
-const db = new sqlite3.Database('../../banco.db');
+const db = new sqlite3.Database('./banco.db');
 
 const createTables = () => {
   // Execute as migrações em série

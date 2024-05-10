@@ -20,3 +20,6 @@
 #### Em ultimo caso, se o login nao funcionar, use o rota `http://localhost:8080/home`
 
 #### Quando criar uma tarefa, atualizar a página.
+
+## Criar tabela
+#### Ao puxar os dados, como estou usando um banco de dados local, é necessário fazer a criacao das tabelas utilizando o endpoint `http://localhost:8888/createTable/` com metodo `POST`
