@@ -1,6 +1,7 @@
 <script setup>
     import Nav from './Nav.vue';
     import Lista from './Lista.vue';
+
 </script>
 
 <template>

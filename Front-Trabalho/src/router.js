@@ -5,13 +5,17 @@ import HomePage from './components/Home/Home.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     component: HomePage
   },
   {
     path: '/login',
     component: LoginPage
   },
+  {
+    path: '/',
+    redirect: '/login'
+  }
 ];
 
 const router = createRouter({
