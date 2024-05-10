@@ -27,6 +27,18 @@ const pegarTarefas =async (req,res)=>{
 
 }
 
+const pegarTarefasFiltradas =async (req,res)=>{
+    try {
+        const id = req.params["id"];
+        let tarefas = await usuarios.pegarTarefas(id);
+        return res.status(200).send(tarefas);
+
+    } catch (error) {
+        return res.status(500).json({"payload": error.message});   
+    }
+
+}
+
 const criarTarefa = (req,res) =>{
     try {
         const body = req.body;
@@ -90,5 +102,6 @@ module.exports = {
     criarUsuario,
     pegarTarefas,
     criarTarefa,
-    alterarStatusTarefa
+    alterarStatusTarefa,
+    pegarTarefasFiltradas
 }

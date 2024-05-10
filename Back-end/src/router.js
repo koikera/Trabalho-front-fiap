@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/login', repo.login)
 
 router.get('/tarefas/:id', repo.pegarTarefas)
+router.get('/tarefasFiltradas/:id', repo.pegarTarefasFiltradas)
 
 router.post('/createTable/', repo.createTable)
 router.post('/criarUsuario/', repo.criarUsuario)
