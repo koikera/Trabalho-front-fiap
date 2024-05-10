@@ -1,4 +1,4 @@
-# Trabalho Matheus Comelli
+# Trabalho
 ## Inicializar projeto front-end
 #### No prompt de comando, rode o comando: `cd Front-Trabalho`
 #### Agora instale as dependencias com o comando: `npm install`
